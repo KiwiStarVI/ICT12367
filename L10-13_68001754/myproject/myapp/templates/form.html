@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="card shadow">
+        <div class="card-header bg-primary text-white">
+            <h4 class="mb-0">ลงทะเบียนประชากร</h4>
+        </div>
+        <div class="card-body">
+            <form method="POST">
+                {% csrf_token %}
+                <div class="mb-3">
+                    <label class="form-label">ชื่อประชากร</label>
+                    <input type="text" class="form-control" name="name" placeholder="ชื่อ-นามสกุล" required>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">อายุ</label>
+                    <input type="number" class="form-control" name="age" placeholder="อายุ" required>
+                </div>
+                
+                <div class="mb-3">
+                    <label class="form-label">แผนก/ฝ่าย</label>
+                    <div class="input-group">
+                        <select name="department" class="form-select" required>
+                            <option value="">-- เลือกแผนก --</option>
+                            {% for d in all_dept %}
+                                <option value="{{ d.id }}">{{ d.name }}</option>
+                            {% endfor %}
+                        </select>
+                        <button class="btn btn-outline-info" type="button" data-bs-toggle="modal" data-bs-target="#deptModal">+ เพิ่มแผนกใหม่</button>
+                    </div>
+                </div>
+
+                <div class="d-flex gap-2 mt-4">
+                    <button type="submit" class="btn btn-success w-100">บันทึกข้อมูลประชากร</button>
+                    <a href="{% url 'index' %}" class="btn btn-secondary w-100">กลับหน้าหลัก</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="deptModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">เพิ่มแผนกใหม่</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form action="{% url 'department_list' %}" method="POST">
+                {% csrf_token %}
+                <div class="modal-body">
+                    <input type="text" name="name" class="form-control" placeholder="ชื่อแผนก" required>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">ปิด</button>
+                    <button type="submit" class="btn btn-primary">บันทึกแผนก</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

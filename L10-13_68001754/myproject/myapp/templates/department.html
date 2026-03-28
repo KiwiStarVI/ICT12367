@@ -1,0 +1,15 @@
+<h2>จัดการแผนก</h2>
+<form method="POST">
+    {% csrf_token %}
+    <input type="text" name="name" placeholder="ชื่อแผนกใหม่" required>
+    <button type="submit">เพิ่มแผนก</button>
+</form>
+<hr>
+<ul>
+    {% for d in all_dept %}
+        <li>{{ d.name }}</li>
+    {% empty %}
+        <li>ยังไม่มีแผนก</li>
+    {% endfor %}
+</ul>
+<a href="{% url 'index' %}">กลับหน้าแรก</a>
